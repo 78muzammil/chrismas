@@ -6,7 +6,6 @@
     <title>Christmas Celebration</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* General body styling */
         body {
             font-family: 'Arial', sans-serif;
             background-image: url('https://c4.wallpaperflare.com/wallpaper/740/654/427/1920x1080-px-beautiful-christmas-gift-holiday-merry-santa-snow-tree-winter-animals-bears-hd-art-wallpaper-preview.jpg');
@@ -16,22 +15,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
             margin: 0;
-            overflow: hidden;
             color: #333;
             text-align: center;
             position: relative;
+            min-height: 100vh; /* Allow body to stretch at least 100% of the viewport height */
         }
 
-        /* Snowflakes container */
         #snowflakes-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Allows interaction with underlying elements */
+            pointer-events: none;
         }
 
         .snowflake {
@@ -53,52 +51,49 @@
             }
         }
 
-        /* Content container */
+        @keyframes dropIn {
+            0% { transform: translateY(-200%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
         .content {
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            max-width: 90%;
-            width: 400px;
+            max-width: 500px;
+            width: 100%;
             z-index: 1;
+            opacity: 0;
+            transform: translateY(-200%);
+            transition: transform 1s ease, opacity 1s ease;
+        }
+
+        .content.visible {
             animation: dropIn 1s ease forwards;
         }
 
-        @keyframes dropIn {
-            0% {
-                transform: translateY(-200%);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive typography */
         h1 {
-            font-size: 2rem;
+            font-size: 40px;
             color: #ff4b5c;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         p {
-            font-size: 1rem;
+            font-size: 20px;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
-        /* Buttons and input styling */
         .celebrate-btn {
-            padding: 10px 20px;
+            padding: 14px 28px;
             background-color: #32cd32;
             color: white;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            border-radius: 5px;
+            font-size: 20px;
+            border-radius: 8px;
             transition: background-color 0.3s ease;
         }
 
@@ -107,9 +102,9 @@
         }
 
         input {
-            padding: 10px;
-            font-size: 1rem;
-            margin: 15px 0;
+            padding: 14px 18px;
+            font-size: 18px;
+            margin: 20px 0;
             width: 100%;
             border: 2px solid #ff4b5c;
             border-radius: 5px;
@@ -122,29 +117,35 @@
         }
 
         .extra-text {
-            font-size: 0.9rem;
+            font-size: 18px;
             color: #333;
-            margin-top: 15px;
+            margin-top: 20px;
             font-style: italic;
         }
 
-        /* Make snowflakes responsive */
-        @media (max-width: 768px) {
-            .snowflake {
-                font-size: 20px;
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 30px;
+            }
+
+            p, .extra-text {
+                font-size: 16px;
+            }
+
+            .celebrate-btn {
+                font-size: 18px;
+                padding: 12px 24px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 24px;
             }
 
             .content {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            p,
-            .extra-text {
-                font-size: 0.9rem;
+                padding: 20px;
+                font-size: 14px;
             }
         }
     </style>
@@ -153,7 +154,6 @@
     <!-- Snowflakes animation -->
     <div id="snowflakes-container"></div>
 
-    <!-- Content container -->
     <div class="content">
         <h1>Celebrate Christmas with Joy!</h1>
         <p>Where are you going to celebrate this Christmas season?</p>
@@ -163,7 +163,6 @@
     </div>
 
     <script>
-        // Generate snowflakes
         window.onload = function () {
             const snowflakesContainer = document.getElementById('snowflakes-container');
 
@@ -176,9 +175,12 @@
                 snowflake.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
                 snowflakesContainer.appendChild(snowflake);
             }
+
+            // Trigger content animation
+            const content = document.querySelector('.content');
+            content.classList.add('visible');
         };
 
-        // Celebrate button action
         function celebrateChristmas() {
             const location = document.getElementById('locationInput').value;
 
@@ -193,6 +195,18 @@
                     confirmButtonText: 'Thank You! 🎄',
                     confirmButtonColor: '#ff4b5c',
                     background: '#fff0f5',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('locationInput').value = '';
+                        Swal.fire({
+                            title: 'Don\'t forget to take a screenshot!',
+                            text: 'Capture this special moment and share it with your friends and family!',
+                            icon: 'info',
+                            confirmButtonText: 'Got it!',
+                            confirmButtonColor: '#32cd32',
+                            background: '#fff0f5',
+                        });
+                    }
                 });
             } else {
                 Swal.fire({
