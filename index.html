@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Celebration</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+    overflow: hidden;
+        }
+
+        #snowflakes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows interaction with underlying elements */
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10%;
+            color: white;
+            opacity: 0.8;
+            animation: snowflakes 20s linear infinite;
+        }
+
+        @keyframes snowflakes {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://c4.wallpaperflare.com/wallpaper/740/654/427/1920x1080-px-beautiful-christmas-gift-holiday-merry-santa-snow-tree-winter-animals-bears-hd-art-wallpaper-preview.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes snowflakes {
+            0% { top: -10%; opacity: 0.8; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes dropIn {
+            0% { transform: translateY(-200%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            font-size: 25px;
+            color: white;
+            opacity: 0.8;
+            animation: snowflakes 10s linear infinite;
+        }
+
+        .snowflake:nth-child(odd) {
+            animation-duration: 15s;
+            left: 30%;
+        }
+
+        .snowflake:nth-child(even) {
+            animation-duration: 12s;
+            left: 70%;
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            z-index: 1;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(-200%); /* Start off-screen */
+            transition: transform 1s ease, opacity 1s ease;
+        }
+
+        .content.visible {
+            animation: dropIn 1s ease forwards;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #ff4b5c;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .celebrate-btn {
+            padding: 14px 28px;
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .celebrate-btn:hover {
+            background-color: #228b22;
+        }
+
+        input {
+            padding: 14px 18px;
+            font-size: 18px;
+            margin: 20px 0;
+            width: 100%;
+            border: 2px solid #ff4b5c;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #32cd32;
+        }
+
+        .extra-text {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .btn-sweetalert {
+            background-color: #32cd32;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .btn-sweetalert:hover {
+            background-color: #228b22;
+        }
+
+        .btn-sweetalert-warning {
+            background-color: #ff4b5c;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .btn-sweetalert-warning:hover {
+            background-color: #e04b48;
+        }
+    </style>
+</head>
+<body>
+    <!-- Snowflakes animation -->
+   <div id="snowflakes-container"></div>
+    <div class="content">
+        <h1>Celebrate Christmas with Joy!</h1>
+        <p>Where are you going to celebrate this Christmas season?</p>
+        <input type="text" id="locationInput" placeholder="Enter your celebration location" />
+        <button class="celebrate-btn" onclick="celebrateChristmas()">Celebrate and Send Wishes!</button>
+        <p class="extra-text">Christmas is a time for love, joy, and togetherness. Let's make this holiday season unforgettable!</p>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const snowflakesContainer = document.getElementById('snowflakes-container');
+
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.textContent = i % 2 === 0 ? '❄️' : '🎄'; // Alternates between snowflake and tree
+                snowflake.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+                snowflake.style.animationDuration = Math.random() * 5 + 5 + 's'; // Random fall duration
+                snowflake.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
+                snowflakesContainer.appendChild(snowflake);
+            }
+
+        // Trigger content animation
+        const content = document.querySelector('.content');
+            content.classList.add('visible');
+        };
+        function celebrateChristmas() {
+            const location = document.getElementById('locationInput').value;
+
+            if (location.trim() !== '') {
+                Swal.fire({
+                    title: 'Merry Christmas!',
+                    text: `Wishing you a wonderful Christmas celebration at ${location}! May your days be filled with love and cheer!`,
+                    imageUrl: 'https://im.indiatimes.in/content/2023/Dec/1_6575a551b64b7.jpg?w=640&h=640&cc=1&webp=1&q=75',
+                    imageWidth: 400,
+                    imageHeight: 400,
+                    imageAlt: 'Christmas Image',
+                    confirmButtonText: 'Thank You! 🎄',
+                    confirmButtonColor: '#ff4b5c',
+                    background: '#fff0f5',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('locationInput').value = '';
+                        Swal.fire({
+                            title: 'Don\'t forget to take a screenshot!',
+                            text: 'Capture this special moment and share it with your friends and family!',
+                            icon: 'info',
+                            confirmButtonText: 'Got it!',
+                            confirmButtonColor: '#32cd32',
+                            background: '#fff0f5',
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Please enter a location to celebrate Christmas.',
+                    icon: 'warning',
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#32cd32',
+                    background: '#fff0f5',
+                });
+            }
+        }
+    </script>
+</body>
+</html>
